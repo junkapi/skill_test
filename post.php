@@ -1,3 +1,52 @@
+<?php
+
+  $dsn = 'mysql:dbname=skill_test1;host=localhost';
+  $user = 'root';
+  $password = '';
+  $dbh = new PDO($dsn, $user, $password);
+  $dbh->query('SET NAMES utf8');
+
+  if (!empty($_POST)) {
+
+    $title = htmlspecialchars($_POST['title']);
+    $date = htmlspecialchars($_POST['date']);
+    $detail = htmlspecialchars($_POST['detail']);
+
+    if (!empty($title || $date || $detail)) {
+
+      $sql = 'INSERT INTO `tasks`(`title`, `date`,`detail`) VALUES (?,?,?)';
+
+      $data[] = $title;
+      $data[] = $date;
+      $data[] = $detail;
+
+      $stmt = $dbh->prepare($sql);
+      $stmt->execute($data);
+    }
+  }
+
+  $sql = 'SELECT * FROM `tasks` WHERE = ?';
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute();
+
+  $comments = array();
+  while (1) {
+  // データを１件ずつ取得
+      $rec = $stmt->fetch(PDO::FETCH_ASSOC);
+      if ($rec == false) {
+         break;
+      }
+   // 配列に追加
+      $comments[] = $rec;
+
+  }
+
+  $dbh = null  
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -13,18 +62,18 @@
       <div class="col-xs-8 col-xs-offset-2 thumbnail">
         <h2 class="text-center content_header">タスク追加</h2>
 
-        <form method="POST" action="">
+        <form method="POST" action="schedule.php">
           <div class="form-group">
             <label for="task">タスク</label>
-            <input name="" class="form-control">
+            <input name="title" class="form-control">
           </div>
           <div class="form-group">
             <label for="date">日程</label>
-            <input type="date" name="" class="form-control">
+            <input type="date" name="date" class="form-control">
           </div>
           <div class="form-group">
             <label for="detail">詳細</label>
-            <textarea name="" class="form-control" rows="3"></textarea><br>
+            <textarea name="detail" class="form-control" rows="3"></textarea><br>
           </div>
           <input type="submit" class="btn btn-primary" value="投稿">
         </form>
