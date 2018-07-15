@@ -1,3 +1,59 @@
+<?php
+
+ date_default_timezone_set("Asia/Manila");
+
+
+  $dsn = 'mysql:dbname=skill_test1;host=localhost';
+  $user = 'root';
+  $password = '';
+  $dbh = new PDO($dsn, $user, $password);
+  $dbh->query('SET NAMES utf8');
+
+  if (!empty($_POST)) {
+
+    $title = htmlspecialchars($_POST['title']);
+    $date = $_POST['date'];
+    $detail = htmlspecialchars($_POST['detail']);
+
+
+    if (!empty($title || $detail)) {
+
+      $sql = 'INSERT INTO `tasks`(`title`, `date`, `detail`) VALUES (?,?,?)';
+
+      $data[] = $title;
+      $data[] = $date;
+      $data[] = $detail;
+
+      $stmt = $dbh->prepare($sql);
+      $stmt->execute($data);
+    }
+  }
+
+  $sql = 'SELECT * FROM `tasks` ORDER BY `date` DESC';
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute();
+
+  $comments = array();
+  while (1) {
+  // データを１件ずつ取得
+      $rec = $stmt->fetch(PDO::FETCH_ASSOC);
+      if ($rec == false) {
+         break;
+      }
+
+       $comments[] = $rec;
+  }
+
+  $dbh = null  
+
+
+?>
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -13,42 +69,31 @@
     <div class="row">
       <div class="col-xs-10 col-xs-offset-1">
 
-        <h2 class="text-center content_header">タスク管理</h2>
+        <h2 class="text-center content_header" style="font-family: 'Hannotate SC',sans-serif;">タスク管理</h2>
 
         <div class="col-xs-4">
-          <a href="post.html" class="btn btn-primary button">追加</a>
+          <a href="post.php" class="btn btn-primary button" style="font-family: 'Hannotate SC',sans-serif;">追加</a>
+
         </div>
+
+       <?php  foreach ($comments as $comment): ?>
 
         <div class="col-xs-8">
           <div class="task">
-            <h3>8月15日</h3>
-            <div class="content">
-              <h3 style="font-weight: bold;">明日映画に行く</h3>
-              <h4>ノブさんと映画見に行くことになったが、気まずいら事前に誰かを誘いたい。太一にはもう聞いて見たが断られた。でも二人で行きたくないから必死に誰かを誘いたい</h4>
+           <h2 style="font-family: 'Hannotate SC',sans-serif;"><span><?php echo $comment['date'] ?></span></h2>
+            <div class="box14">
+             <h3 style="font-family: 'Hannotate SC',sans-serif;"> <a href="detail.php" style="font-weight: bold;"><?php echo $comment['title'] ?></a>
+              <a href="edit.php?id=<?php echo $comment["id"]; ?>" class="btn btn-success" style="color: white">編集</a>
+              <a href="delete.php?id=<?php echo $comment["id"]; ?>" class="btn btn-danger" style="color: white">削除</a>
+
+             </h3>
+              <p style="font-family: 'Hannotate SC',sans-serif;"><?php echo $comment['detail'] ?></p>
             </div>
           </div>
 
-          <div class="task">
-            <h3>8月15日</h3>
-            <div class="content">
-              <h3 style="font-weight: bold;">明日映画に行く</h3>
-              <h4>ノブさんと映画見に行くことになったが、気まずいら事前に誰かを誘いたい。太一にはもう聞いて見たが断られた。でも二人で行きたくないから必死に誰かを誘いたい</h4>
-            </div>
-          </div>
+       <?php endforeach; ?>
 
-          <div class="task">
-            <h3>8月15日</h3>
-            <div class="content">
-              <h3 style="font-weight: bold;">明日映画に行く</h3>
-              <h4>ノブさんと映画見に行くことになったが、気まずいら事前に誰かを誘いたい。太一にはもう聞いて見たが断られた。でも二人で行きたくないから必死に誰かを誘いたい</h4>
-            </div>
-          </div>
 
-          <div class="task">
-            <h3>8月15日</h3>
-            <div class="content">
-              <h3 style="font-weight: bold;">明日映画に行く</h3>
-              <h4>ノブさんと映画見に行くことになったが、気まずいら事前に誰かを誘いたい。太一にはもう聞いて見たが断られた。でも二人で行きたくないから必死に誰かを誘いたい</h4>
             </div>
           </div>
         </div>

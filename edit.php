@@ -1,53 +1,32 @@
 <?php
 
- date_default_timezone_set("Asia/Manila");
-
-
   $dsn = 'mysql:dbname=skill_test1;host=localhost';
   $user = 'root';
   $password = '';
   $dbh = new PDO($dsn, $user, $password);
   $dbh->query('SET NAMES utf8');
 
-  if (!empty($_POST)) {
-
-    $title = htmlspecialchars($_POST['title']);
-    $date = $_POST['date'];
-    $detail = htmlspecialchars($_POST['detail']);
+  $id = $_GET['id'];
 
 
-    if (!empty($title || $detail)) {
+  $sql = 'SELECT * FROM `tasks` WHERE `id` = ?';
 
-      $sql = 'INSERT INTO `tasks`(`title`, `date`, `detail`) VALUES (?,?,?)';
+  $data[] = $id;
 
-      $data[] = $title;
-      $data[] = $date;
-      $data[] = $detail;
-
-      $stmt = $dbh->prepare($sql);
-      $stmt->execute($data);
-    }
-  }
-
-  $sql = 'SELECT * FROM `tasks` ORDER BY `date` DESC';
   $stmt = $dbh->prepare($sql);
-  $stmt->execute();
+  $stmt->execute($data);
 
-  $comments = array();
-  while (1) {
-  // データを１件ずつ取得
-      $rec = $stmt->fetch(PDO::FETCH_ASSOC);
-      if ($rec == false) {
-         break;
-      }
 
-       $comments[] = $rec;
-  }
+  $comment = $stmt->fetch(PDO::FETCH_ASSOC);
 
-  $dbh = null  
+
+
+  $dbh = null;
+
 
 
 ?>
+
 
 
 
@@ -66,18 +45,19 @@
       <div class="col-xs-8 col-xs-offset-2 thumbnail">
         <h2 class="text-center content_header">タスク追加</h2>
 
-        <form method="POST" action="schedule.php">
+        <form method="POST" action="update.php">
           <div class="form-group">
             <label for="task">タスク</label>
-            <input name="title" class="form-control" placeholder="title" required>
+            <input name="title" class="form-control" value="<?php echo $comment['title'] ?>">
+            <input type="hidden" name="id" value="<?php echo $comment['id'] ?>">
           </div>
           <div class="form-group">
             <label for="date">日程</label>
-            <input type="date" name="date" class="form-control" placeholder="date" required>
+            <input type="date" name="date" class="form-control" value="<?php echo $comment['date'] ?>">
           </div>
           <div class="form-group">
             <label for="detail">詳細</label>
-            <textarea name="detail" class="form-control" rows="3" placeholder="detail" required></textarea><br>
+            <textarea name="detail" class="form-control" rows="3" value="<?php echo $comment['detail'] ?>"></textarea><br>
           </div>
           <input type="submit" class="btn btn-primary" value="投稿">
         </form>
