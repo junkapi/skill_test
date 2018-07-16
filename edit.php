@@ -43,20 +43,20 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-8 col-xs-offset-2 thumbnail">
-        <h2 class="text-center content_header">タスク追加</h2>
+        <h2 class="text-center content_header" style="font-family: 'Hannotate SC',sans-serif;">タスク追加</h2>
 
         <form method="POST" action="update.php">
           <div class="form-group">
-            <label for="task">タスク</label>
+            <label for="task" style="font-family: 'Hannotate SC',sans-serif;">タスク</label>
             <input name="title" class="form-control" value="<?php echo $comment['title'] ?>">
             <input type="hidden" name="id" value="<?php echo $comment['id'] ?>">
           </div>
           <div class="form-group">
-            <label for="date">日程</label>
+            <label for="date" style="font-family: 'Hannotate SC',sans-serif;">日程</label>
             <input type="date" name="date" class="form-control" value="<?php echo $comment['date'] ?>">
           </div>
           <div class="form-group">
-            <label for="detail">詳細</label>
+            <label for="detail" style="font-family: 'Hannotate SC',sans-serif;">詳細</label>
             <textarea name="detail" class="form-control" rows="3" value="<?php echo $comment['detail'] ?>"></textarea><br>
           </div>
           <input type="submit" class="btn btn-primary" value="投稿">
