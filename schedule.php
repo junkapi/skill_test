@@ -29,7 +29,7 @@
     }
   }
 
-  $sql = 'SELECT * FROM `tasks` ORDER BY `date` DESC';
+  $sql = 'SELECT * FROM `tasks` ORDER BY `date` ASC';
   $stmt = $dbh->prepare($sql);
   $stmt->execute();
 
