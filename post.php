@@ -16,7 +16,7 @@
     $detail = htmlspecialchars($_POST['detail']);
 
 
-    if (!empty($title || $detail)) {
+    if (!empty($title && $detail && $date)) {
 
       $sql = 'INSERT INTO `tasks`(`title`, `date`, `detail`) VALUES (?,?,?)';
 
@@ -26,8 +26,15 @@
 
       $stmt = $dbh->prepare($sql);
       $stmt->execute($data);
+
+
     }
+
+    header("Location: schedule.php");
+    exit();
+
   }
+
 
   $sql = 'SELECT * FROM `tasks` ORDER BY `date` DESC';
   $stmt = $dbh->prepare($sql);
@@ -44,7 +51,10 @@
        $comments[] = $rec;
   }
 
-  $dbh = null  
+
+  $dbh = null;
+
+
 
 
 ?>
@@ -66,18 +76,18 @@
       <div class="col-xs-8 col-xs-offset-2 thumbnail">
         <h2 class="text-center content_header" style="font-family: 'Hannotate SC',sans-serif;">タスク追加</h2>
 
-        <form method="POST" action="schedule.php">
+        <form method="POST" action="">
           <div class="form-group">
             <label for="task" style="font-family: 'Hannotate SC',sans-serif;">タスク</label>
-            <input name="title" class="form-control" placeholder="title" required>
+            <input name="title" class="form-control" placeholder="何をする？" required>
           </div>
           <div class="form-group">
             <label for="date" style="font-family: 'Hannotate SC',sans-serif;">日程</label>
-            <input type="date" name="date" class="form-control" placeholder="date" required>
+            <input type="date" name="date" class="form-control" placeholder="いつ？" required>
           </div>
           <div class="form-group">
             <label for="detail" style="font-family: 'Hannotate SC',sans-serif;">詳細</label>
-            <textarea name="detail" class="form-control" rows="3" placeholder="detail" required></textarea><br>
+            <textarea name="detail" class="form-control" rows="3" placeholder="詳細教えて？" required></textarea><br>
           </div>
           <input type="submit" class="btn btn-primary" value="投稿">
         </form>

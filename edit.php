@@ -57,9 +57,9 @@
           </div>
           <div class="form-group">
             <label for="detail" style="font-family: 'Hannotate SC',sans-serif;">詳細</label>
-            <textarea name="detail" class="form-control" rows="3" value="<?php echo $comment['detail'] ?>"></textarea><br>
+            <textarea name="detail" class="form-control" rows="3"><?php echo $comment['detail'] ?></textarea><br>
           </div>
-          <input type="submit" class="btn btn-primary" value="投稿">
+          <input type="submit" class="btn btn-primary" value="編集完了">
         </form>
 
       </div>

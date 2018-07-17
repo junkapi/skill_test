@@ -44,8 +44,9 @@
        $comments[] = $rec;
   }
 
-  $dbh = null  
 
+
+  $dbh = null;
 
 ?>
 
@@ -71,22 +72,27 @@
 
         <h2 class="text-center content_header" style="font-family: 'Hannotate SC',sans-serif;">タスク管理</h2>
 
-        <div class="col-xs-4"><a href="post.php" class="btn btn-primary button" style="font-family: 'Hannotate SC',sans-serif;">追加</a></div>
-
-        <?php  foreach ($comments as $comment): ?>
-         <div class="col-xs-8">
-          <div class="task">
-           <h2 style="font-family: 'Hannotate SC',sans-serif;"><span><?php echo $comment['date'] ?></span></h2>
-            <div class="box14">
-             <h3 style="font-family: 'Hannotate SC',sans-serif;">
-              <a href="detail.php" style="font-weight: bold;"><?php echo $comment['title'] ?></a>
-              <a href="edit.php?id=<?php echo $comment["id"]; ?>" class="btn btn-success" style="color: white">編集</a>
-              <a href="delete.php?id=<?php echo $comment["id"]; ?>" class="btn btn-danger" style="color: white">削除</a></h3>
-              <p style="font-family: 'Hannotate SC',sans-serif;"><?php echo $comment['detail'] ?></p>
+          <div class="col-xs-4">
+            <div style="position: fixed;">
+            <a href="post.php" class="btn btn-primary button" style="font-family: 'Hannotate SC',sans-serif;">追加</a>
             </div>
           </div>
-        </div>
-        <?php endforeach; ?>
+
+           <div class="col-xs-8">
+            <?php  foreach ($comments as $comment): ?>
+            <div class="task">
+             <h2 style="font-family: 'Hannotate SC',sans-serif;"><span><?php echo $comment['date'] ?></span></h2>
+              <div class="box14">
+               <h3 style="font-family: 'Hannotate SC',sans-serif;">
+                <a href="detail.php" style="font-weight: bold;"><?php echo $comment['title'] ?></a>
+                <a href="edit.php?id=<?php echo $comment["id"]; ?>" class="btn btn-success" style="color: white">編集</a>
+                <a href="delete.php?id=<?php echo $comment["id"]; ?>" class="btn btn-danger" style="color: white">削除</a></h3>
+                <p style="font-family: 'Hannotate SC',sans-serif;"><?php echo $comment['detail'] ?></p>
+              </div>
+            </div>
+           <?php endforeach; ?>
+          </div>
+
 
       </div>
     </div>
